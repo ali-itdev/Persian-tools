@@ -14,16 +14,10 @@ city_details_by_key()
 
 """
 
-import json
-from __init__ import SETTINGS
+from __init__ import SETTINGS, get_data
 
 
 
-def get_data(file_path: str):
-    f = open(file_path, "r")
-    data = json.loads(f.read())
-    f.close()
-    return data
 
 def cities_key():
     data = get_data(SETTINGS['cities_path'])
