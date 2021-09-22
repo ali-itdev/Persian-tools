@@ -38,7 +38,7 @@ def city_location_by_key(obj_key):
             location.update({"lat": city['latitude']})
             location.update({"elevation": city['elevation']})
             return location
-        return location
+    return location
 
 def city_details_by_key(obj_key: str):
     data = get_data(SETTINGS['cities_path'])
