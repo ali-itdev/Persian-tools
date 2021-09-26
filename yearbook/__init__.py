@@ -36,14 +36,16 @@ def gregorian_to_jalali(day: int, month: int, year: int):
             months_days_number = (31,28,31,30,31,30,31,31,30,31,30,31)
 
         # Counting the number of days before this month 
-        gregorian_days_count = 0
+        gregorian_days = 0
         for i in range(month - 1):
-            gregorian_days_count += months_days_number[i]
-        gregorian_days_count += day
+            gregorian_days += months_days_number[i]
+        gregorian_days += day
         
 
         # Diffrences beetwen gregorian and jalali new years
-        jalali_days = gregorian_days_count - 79
+        jalali_days = gregorian_days - 79
+        if is_leap(jalali_year,'j'):
+            jalali_days +=1
         
         # Find n number in a year
         month_count = 1
