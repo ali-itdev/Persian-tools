@@ -24,18 +24,16 @@ def gregorian_to_jalali(day: int, month: int, year: int):
         jalali_year = year - 621
     else:
         return 'Unexpected year'
+    # Check valid date and Convert all months to day => 17/2 => 30+28+17
     if day <= 31 and month <= 12:
-
-        file_path = SETTINGS['calendar_path'] + '/gregorian.json'
-        data = get_data(file_path)
 
         months_days_number = None
         isleap = is_leap(year)
 
         if isleap:
-            months_days_number = data['months']['leap']
+            months_days_number = (31,29,31,30,31,30,31,31,30,31,30,31)
         else:
-            months_days_number = data['months']['normal']
+            months_days_number = (31,28,31,30,31,30,31,31,30,31,30,31)
 
         # Counting the number of days before this month 
         gregorian_days_count = 0
