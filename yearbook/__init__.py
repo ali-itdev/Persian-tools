@@ -3,6 +3,7 @@ from datetime import datetime
 
 this_year = datetime.now().year
 
+
 def is_leap(year: int, type: str = 'g'):
 
     # types :
@@ -58,7 +59,7 @@ def gregorian_to_jalali(day: int, month: int, year: int = this_year):
                 else:
                     jalali_days -= 30
                 month_count += 1
-                
+
         else:
             jalali_year -= 1
 
@@ -77,13 +78,52 @@ def gregorian_to_jalali(day: int, month: int, year: int = this_year):
                 jalali_days = 79 - diff if gregorian_days > 20 else gregorian_days + 10
                 month_count -= 2
 
-        if month <= 3 and is_leap(jalali_year,'j'):
-            jalali_days +=1
-        
+        if month <= 3 and is_leap(jalali_year, 'j'):
+            jalali_days += 1
+
         resault = {
             'year': jalali_year,
             'month': month_count,
             'day': jalali_days
         }
         return resault
+    return 'Unexpected days/month'
+
+
+def get_events(day: int, month: int):
+    if day <= 31 and month <= 12:
+
+        jalali_date = gregorian_to_jalali(day,month)
+
+        sameMonth = []
+        events = []
+        data = None
+
+        path = ['gregorian.json','jalali.json']
+        for p in range(len(path)):
+            dir = SETTINGS['calendar_path'] + '/' + path[p]
+            data = get_data(dir)
+            data = data['events']
+
+            # switch to jalali date
+            if p == 1 :
+                day = jalali_date['day']
+                month = jalali_date['month']
+            
+
+            # Search in data by month key
+            
+            for i in range(len(data)):
+                data_month = data[i]['month']
+                if data_month == month:
+                    sameMonth.append(data[i])
+
+            # Search in data by day key
+            
+            for i in range(len(sameMonth)):
+                data_day = sameMonth[i]['day']
+                if data_day == day:
+                    events.append(sameMonth[i])
+
+        return events
     return 'Unexpected days/month'
