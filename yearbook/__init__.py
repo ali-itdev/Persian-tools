@@ -1,4 +1,7 @@
 from __init__ import SETTINGS, get_data
+from datetime import datetime
+
+this_year = datetime.now().year
 
 def is_leap(year: int, type: str = 'g'):
 
@@ -16,7 +19,7 @@ def is_leap(year: int, type: str = 'g'):
     return False
 
 
-def gregorian_to_jalali(day: int, month: int, year: int):
+def gregorian_to_jalali(day: int, month: int, year: int = this_year):
     # Converting the year
     jalali_year = None
     if year > 621:
