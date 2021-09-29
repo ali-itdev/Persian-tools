@@ -1,6 +1,5 @@
 from __init__ import SETTINGS, get_data
 
-
 def is_leap(year: int, type: str = 'g'):
 
     # types :
@@ -56,6 +55,7 @@ def gregorian_to_jalali(day: int, month: int, year: int):
                 else:
                     jalali_days -= 30
                 month_count += 1
+                
         else:
             jalali_year -= 1
 
@@ -64,8 +64,8 @@ def gregorian_to_jalali(day: int, month: int, year: int):
             jalali_days = None
 
             month_count = 12
-            
-            if  diff < 29:
+
+            if diff < 29:
                 jalali_days = 29 - diff
             elif diff > 29 and diff < 59:
                 jalali_days = 59 - diff
@@ -74,6 +74,9 @@ def gregorian_to_jalali(day: int, month: int, year: int):
                 jalali_days = 79 - diff if gregorian_days > 20 else gregorian_days + 10
                 month_count -= 2
 
+        if month <= 3 and is_leap(jalali_year,'j'):
+            jalali_days +=1
+        
         resault = {
             'year': jalali_year,
             'month': month_count,
