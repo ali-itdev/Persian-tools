@@ -134,12 +134,13 @@ def get_events(day: int, month: int):
     if day <= 31 and month <= 12:
 
         jalali_date = gregorian_to_jalali(day, month)
+        hijri_date = gregorian_to_hijri(day,month)
 
         sameMonth = []
         events = []
         data = None
 
-        path = ['gregorian.json', 'jalali.json']
+        path = ['gregorian.json', 'jalali.json' , 'hijri.json']
         for p in range(len(path)):
             dir = SETTINGS['calendar_path'] + '/' + path[p]
             data = get_data(dir)
@@ -149,6 +150,9 @@ def get_events(day: int, month: int):
             if p == 1:
                 day = jalali_date['day']
                 month = jalali_date['month']
+            elif p == 2:
+                day = hijri_date['day']
+                month = hijri_date['month']
 
             # Search in data by month key
 
