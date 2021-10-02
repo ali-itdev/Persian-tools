@@ -13,8 +13,8 @@ Access iran cities and towns locations
 - city_details_by_key() # return a city details including { "en","fa","ckb","ar","latitude","longitude","elevation" }
 
 ```
-from province import city
-from province import district
+from perian_tools.province import city
+from perian_tools.province import district
 
 cities = city.cities_key()
 
@@ -44,7 +44,7 @@ for key in fa_keys:
 #### Province.districts
 
 ```
-from province import district
+from perian_tools.province import district
 
 districts = district.districts_key()
 
