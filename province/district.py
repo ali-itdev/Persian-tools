@@ -1,4 +1,4 @@
-from __init__ import SETTINGS, get_data
+from perian_tools import SETTINGS, get_data
 
 
 def districts_key():

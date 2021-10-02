@@ -14,7 +14,7 @@ city_details_by_key()
 
 """
 
-from __init__ import SETTINGS, get_data
+from perian_tools import SETTINGS, get_data
 
 
 

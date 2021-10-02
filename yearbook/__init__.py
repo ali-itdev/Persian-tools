@@ -1,5 +1,5 @@
 import math
-from __init__ import SETTINGS, get_data
+from perian_tools import SETTINGS, get_data
 from datetime import datetime
 from .ummalqura_arrray import UmalqurraArray
 
