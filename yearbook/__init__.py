@@ -1,5 +1,7 @@
+import math
 from __init__ import SETTINGS, get_data
 from datetime import datetime
+from .ummalqura_arrray import UmalqurraArray
 
 this_year = datetime.now().year
 
@@ -90,36 +92,73 @@ def gregorian_to_jalali(day: int, month: int, year: int = this_year):
     return 'Unexpected days/month'
 
 
+def gegorean_to_hijri(day, month, year = this_year):
+    # This code the modified version of R.H. van Gent Code, it can be found
+    # at http://www.staff.science.uu.nl/~gent0113/islam/ummalqura.htm
+    # read calendar data
+    day = int(day)
+    m = int(month)  # Here we enter the Index of the month (which starts with Zero)
+    y = int(year)
+    # append January and February to the previous year (i.e. regard March as
+    # the first month of the year in order to simplify leapday corrections)
+    if m < 3:
+        y -= 1
+        m += 12
+        # determine offset between Julian and Gregorian calendar
+    a = math.floor(y / 100.)
+    jgc = a - math.floor(a / 4.) - 2
+    # compute Chronological Julian Day Number (CJDN)
+    cjdn = math.floor(365.25 * (y + 4716)) + \
+        math.floor(30.6001 * (m + 1)) + day - jgc - 1524
+    a = math.floor((cjdn - 1867216.25) / 36524.25)
+    # compute Modified Chronological Julian Day Number (MCJDN)
+    mcjdn = cjdn - 2400000
+    # the MCJDN's of the start of the lunations in the Umm al-Qura calendar are stored in 'islamcalendar_dat.js'
+    index = UmalqurraArray.get_index(mcjdn)
+    # compute and output the Umm al-Qura calendar date
+    iln = index + 16260
+    ii = math.floor((iln - 1) / 12)
+    iy = ii + 1
+    im = iln - 12 * ii
+    id = mcjdn - UmalqurraArray.ummalqura_dat[index - 1] + 1
+    
+    resault = {
+        'year': iy,
+        'month': im,
+        'day': id
+    }
+    return resault
+
+
 def get_events(day: int, month: int):
     if day <= 31 and month <= 12:
 
-        jalali_date = gregorian_to_jalali(day,month)
+        jalali_date = gregorian_to_jalali(day, month)
 
         sameMonth = []
         events = []
         data = None
 
-        path = ['gregorian.json','jalali.json']
+        path = ['gregorian.json', 'jalali.json']
         for p in range(len(path)):
             dir = SETTINGS['calendar_path'] + '/' + path[p]
             data = get_data(dir)
             data = data['events']
 
             # switch to jalali date
-            if p == 1 :
+            if p == 1:
                 day = jalali_date['day']
                 month = jalali_date['month']
-            
 
             # Search in data by month key
-            
+
             for i in range(len(data)):
                 data_month = data[i]['month']
                 if data_month == month:
                     sameMonth.append(data[i])
 
             # Search in data by day key
-            
+
             for i in range(len(sameMonth)):
                 data_day = sameMonth[i]['day']
                 if data_day == day:
