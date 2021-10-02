@@ -92,7 +92,7 @@ def gregorian_to_jalali(day: int, month: int, year: int = this_year):
     return 'Unexpected days/month'
 
 
-def gegorean_to_hijri(day, month, year = this_year):
+def gregorian_to_hijri(day, month, year = this_year):
     # This code the modified version of R.H. van Gent Code, it can be found
     # at http://www.staff.science.uu.nl/~gent0113/islam/ummalqura.htm
     # read calendar data
